@@ -2,3 +2,4 @@
 Orchestrates
 '''
 
+#TAKES ROW OF DATA AND PARSES IT -> SEND TO EXECUTION
