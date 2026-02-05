@@ -33,7 +33,7 @@ class ExecutionV1():
             pass
         
 
-    #ADD TO FILL_PRICE????
+    #FEES have been set to 0 for v1, but needs to be implemented later for full functionality
     def apply_fees(self):
         pass
 
@@ -49,15 +49,17 @@ class ExecutionV1():
 
         return trade_record
 
-    def execution(self, signal, position, next_bar_open):
+    def execute(self, signal, position, next_bar_open, timestamp, quantity):
         action = self.signal_to_action(signal, position)
         price = self.decide_fill_price(position, signal, next_bar_open)
 
         if action == "BUY":
             self.portfolio.buy(price)
+            return self.trade_record(timestamp, "BUY", quantity, signal, next_bar_open)
 
         elif action == "SELL":
             self.portfolio.sell(price)
+            return self.trade_record(timestamp, "SELL", quantity, signal, next_bar_open)
 
         else:
             return "NO_CHANGE"
