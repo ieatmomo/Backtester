@@ -22,5 +22,7 @@ engine_loop = Loop(data_path, starting_cash)
 engine_loop.iterate_bars()
 
 df = pd.DataFrame(engine_loop.trade_record_store)
+equity_df = pd.DataFrame(engine_loop.equity_curve)
 
 df.to_csv('TEST_TRADE_RECORDS.csv')
+equity_df.to_csv('TEST_EQUITY_CURVE.csv')
