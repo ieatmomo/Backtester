@@ -19,6 +19,7 @@ class Loop():
         self.execution = ExecutionV1(0, 0, self.portfolio) #FEES AND SLIPPAGE AT 0 FOR V1
         self.pending_signal = "NO_CHANGE"
         self.trade_record_store = []
+        self.equity_curve = []
 
     def iterate_bars(self):
         #data\AAPL_2024-01-03T00%3A00%3A00Z_2024-01-04T00%3A00%3A00Z.csv
@@ -36,11 +37,17 @@ class Loop():
                 trade_record = self.execution.execute(self.pending_signal, self.portfolio.position, open_price, timestamp, 1)
                 self.store_records(trade_record)
                 self.pending_signal = self.strategy.on_bar(close_price)
+                self.store_equity(timestamp, close_price)
+                
 
 
     def store_records(self, trade_record):
         if trade_record != "NO_CHANGE":
             self.trade_record_store.append(trade_record)
+
+    def store_equity(self, timestamp, close_price):
+        equity = self.portfolio.calculate_equity(close_price)
+        self.equity_curve.append({"timestamp": timestamp, "equity": equity})
 
 
 
